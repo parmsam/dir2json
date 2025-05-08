@@ -75,55 +75,66 @@ implement this functionality in a Shiny app.</p>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">fluidPage</span><span class="op">(</span></span>
-<span>  <span class="fu">titlePanel</span><span class="op">(</span><span class="st">"Encode Uploaded Files to JSON"</span><span class="op">)</span>,</span>
-<span>  <span class="fu">sidebarLayout</span><span class="op">(</span></span>
-<span>    <span class="fu">sidebarPanel</span><span class="op">(</span></span>
-<span>      <span class="fu">fileInput</span><span class="op">(</span><span class="st">"files"</span>, <span class="st">"Upload Files"</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>      <span class="fu">actionButton</span><span class="op">(</span><span class="st">"encode"</span>, <span class="st">"Encode to JSON"</span><span class="op">)</span>,</span>
-<span>      <span class="fu">downloadButton</span><span class="op">(</span><span class="st">"downloadJSON"</span>, <span class="st">"Download JSON"</span><span class="op">)</span></span>
+<span>    <span class="fu">titlePanel</span><span class="op">(</span><span class="st">"Encode Uploaded Files to JSON"</span><span class="op">)</span>,</span>
+<span>    <span class="fu">sidebarLayout</span><span class="op">(</span></span>
+<span>        <span class="fu">sidebarPanel</span><span class="op">(</span></span>
+<span>            <span class="fu">fileInput</span><span class="op">(</span><span class="st">"files"</span>, <span class="st">"Upload Files"</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            <span class="fu">actionButton</span><span class="op">(</span><span class="st">"encode"</span>, <span class="st">"Encode to JSON"</span><span class="op">)</span>,</span>
+<span>            <span class="fu">downloadButton</span><span class="op">(</span><span class="st">"downloadJSON"</span>, <span class="st">"Download JSON"</span><span class="op">)</span></span>
+<span>        <span class="op">)</span>,</span>
+<span>        <span class="fu">mainPanel</span><span class="op">(</span></span>
+<span>            <span class="fu">verbatimTextOutput</span><span class="op">(</span><span class="st">"jsonOutput"</span><span class="op">)</span></span>
+<span>        <span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    <span class="fu">mainPanel</span><span class="op">(</span></span>
-<span>      <span class="fu">verbatimTextOutput</span><span class="op">(</span><span class="st">"jsonOutput"</span><span class="op">)</span></span>
+<span>    <span class="co"># Custom CSS to enable line wrapping</span></span>
+<span>    <span class="va">tags</span><span class="op">$</span><span class="fu">style</span><span class="op">(</span></span>
+<span>        <span class="fu">HTML</span><span class="op">(</span><span class="st">"</span></span>
+<span><span class="st">            #jsonOutput {</span></span>
+<span><span class="st">                white-space: pre-wrap;</span></span>
+<span><span class="st">                word-wrap: break-word;</span></span>
+<span><span class="st">                max-height: 400px;</span></span>
+<span><span class="st">                overflow-y: auto;</span></span>
+<span><span class="st">            }</span></span>
+<span><span class="st">        "</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># Reactive value to store the JSON data</span></span>
-<span>  <span class="va">json_data</span> <span class="op">&lt;-</span> <span class="fu">reactiveVal</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="fu">observeEvent</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">encode</span>, <span class="op">{</span></span>
-<span>    <span class="fu">req</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">files</span><span class="op">)</span> <span class="co"># Ensure files are uploaded</span></span>
+<span>    <span class="co"># Reactive value to store the JSON data</span></span>
+<span>    <span class="va">json_data</span> <span class="op">&lt;-</span> <span class="fu">reactiveVal</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
 <span>    </span>
-<span>    <span class="co"># Create a temporary directory to store uploaded files</span></span>
-<span>    <span class="va">temp_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">temp_dir</span><span class="op">)</span></span>
+<span>    <span class="fu">observeEvent</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">encode</span>, <span class="op">{</span></span>
+<span>        <span class="fu">req</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">files</span><span class="op">)</span> <span class="co"># Ensure files are uploaded</span></span>
+<span>        </span>
+<span>        <span class="co"># Create a temporary directory to store uploaded files</span></span>
+<span>        <span class="va">temp_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">temp_dir</span><span class="op">)</span></span>
+<span>        </span>
+<span>        <span class="co"># Copy uploaded files to the temporary directory</span></span>
+<span>        <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">files</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">files</span><span class="op">$</span><span class="va">datapath</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">temp_dir</span>, <span class="va">input</span><span class="op">$</span><span class="va">files</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span>        <span class="op">}</span></span>
+<span>        </span>
+<span>        <span class="co"># Encode the directory to JSON</span></span>
+<span>        <span class="fu">json_data</span><span class="op">(</span><span class="fu"><a href="../reference/json_encode_dir.html">json_encode_dir</a></span><span class="op">(</span><span class="va">temp_dir</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">}</span><span class="op">)</span></span>
 <span>    </span>
-<span>    <span class="co"># Copy uploaded files to the temporary directory</span></span>
-<span>    <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">files</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">files</span><span class="op">$</span><span class="va">datapath</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">temp_dir</span>, <span class="va">input</span><span class="op">$</span><span class="va">files</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="op">}</span></span>
+<span>    <span class="co"># Display the JSON data in the UI</span></span>
+<span>    <span class="va">output</span><span class="op">$</span><span class="va">jsonOutput</span> <span class="op">&lt;-</span> <span class="fu">renderText</span><span class="op">(</span><span class="op">{</span></span>
+<span>        <span class="fu">req</span><span class="op">(</span><span class="fu">json_data</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>        <span class="fu">json_data</span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="op">}</span><span class="op">)</span></span>
 <span>    </span>
-<span>    <span class="co"># Encode the directory to JSON</span></span>
-<span>    <span class="fu">json_data</span><span class="op">(</span><span class="fu"><a href="../reference/json_encode_dir.html">json_encode_dir</a></span><span class="op">(</span><span class="va">temp_dir</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="co"># Display the JSON data in the UI</span></span>
-<span>  <span class="va">output</span><span class="op">$</span><span class="va">jsonOutput</span> <span class="op">&lt;-</span> <span class="fu">renderText</span><span class="op">(</span><span class="op">{</span></span>
-<span>    <span class="fu">req</span><span class="op">(</span><span class="fu">json_data</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="fu">json_data</span><span class="op">(</span><span class="op">)</span></span>
-<span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="co"># Allow the user to download the JSON file</span></span>
-<span>  <span class="va">output</span><span class="op">$</span><span class="va">downloadJSON</span> <span class="op">&lt;-</span> <span class="fu">downloadHandler</span><span class="op">(</span></span>
-<span>    filename <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="st">"encoded_files.json"</span></span>
-<span>    <span class="op">}</span>,</span>
-<span>    content <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">file</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu">req</span><span class="op">(</span><span class="fu">json_data</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu">json_data</span><span class="op">(</span><span class="op">)</span>, <span class="va">file</span><span class="op">)</span></span>
-<span>    <span class="op">}</span></span>
-<span>  <span class="op">)</span></span>
+<span>    <span class="co"># Allow the user to download the JSON file</span></span>
+<span>    <span class="va">output</span><span class="op">$</span><span class="va">downloadJSON</span> <span class="op">&lt;-</span> <span class="fu">downloadHandler</span><span class="op">(</span></span>
+<span>        filename <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>            <span class="st">"encoded_files.json"</span></span>
+<span>        <span class="op">}</span>,</span>
+<span>        content <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">file</span><span class="op">)</span> <span class="op">{</span></span>
+<span>            <span class="fu">req</span><span class="op">(</span><span class="fu">json_data</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu">json_data</span><span class="op">(</span><span class="op">)</span>, <span class="va">file</span><span class="op">)</span></span>
+<span>        <span class="op">}</span></span>
+<span>    <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu">shinyApp</span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
