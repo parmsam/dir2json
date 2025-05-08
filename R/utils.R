@@ -1,0 +1,9 @@
+read_raw <- function(file) {
+  readBin(file, "raw", n = file.info(file, extra_cols = FALSE)$size)
+}
+
+# Read file as UTF-8
+read_utf8 <- function(file) {
+  res <- read_raw(file)
+  raw_to_utf8(res)
+}

@@ -1,4 +1,11 @@
-encode_dir_to_json <- function(dir) {
+#' Encode a Directory to JSON
+#'
+#' This function encodes all files in a directory into a JSON format.
+#'
+#' @param dir A character string specifying the directory to encode.
+#' @return A JSON string representing the directory's contents.
+#' @export
+json_encode_dir <- function(dir) {
   stopifnot(fs::dir_exists(dir))
   
   files <- fs::dir_ls(dir, recurse = TRUE, type = "file")
@@ -12,7 +19,15 @@ encode_dir_to_json <- function(dir) {
   return(bundle)
 }
 
-decode_json_to_dir <- function(json_data, dir) {
+#' Decode JSON to a Directory
+#'
+#' This function decodes a JSON string into a directory structure.
+#'
+#' @param json_data A JSON string representing the directory's contents.
+#' @param dir A character string specifying the target directory.
+#' @return None. Creates files in the specified directory.
+#' @export
+json_decode_dir <- function(json_data, dir) {
   sl_app <- jsonlite::fromJSON(json_data, simplifyVector = FALSE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
   
   if (!fs::dir_exists(dir)) {
@@ -22,6 +37,14 @@ decode_json_to_dir <- function(json_data, dir) {
   write_files(sl_app, dir)
 }
 
+#' Write Files to a Directory
+#'
+#' This function writes files to a specified directory based on a structured list.
+#'
+#' @param sl_app A structured list representing files and their contents.
+#' @param dest A character string specifying the target directory.
+#' @return None. Writes files to the specified directory.
+#' @export
 write_files <- function(sl_app, dest) {
   for (file in sl_app) {
     if ("type" %in% names(file) && file[["type"]] == "binary") {
@@ -34,6 +57,15 @@ write_files <- function(sl_app, dest) {
   }
 }
 
+#' Convert a File to a List
+#'
+#' This function converts a file into a structured list for encoding.
+#'
+#' @param path A character string specifying the file path.
+#' @param name An optional character string specifying the file name.
+#' @param type An optional character string specifying the file type ("text" or "binary").
+#' @return A structured list representing the file.
+#' @export
 as_file_list <- function(path, name = fs::path_file(path), type = NULL) {
   if (is.null(type)) {
     ext <- tolower(fs::path_ext(path))
@@ -44,7 +76,7 @@ as_file_list <- function(path, name = fs::path_file(path), type = NULL) {
   
   content <-
     if (type == "text") {
-      xfun::read_utf8(path)
+      read_utf8(path)
     } else {
       rlang::check_installed("base64enc", "for binary file encoding.")
       base64enc::base64encode(read_raw(path))
@@ -56,6 +88,12 @@ as_file_list <- function(path, name = fs::path_file(path), type = NULL) {
   ret
 }
 
+#' Get Text File Extensions
+#'
+#' This function returns a vector of common text file extensions.
+#'
+#' @return A character vector of text file extensions.
+#' @export
 text_file_extensions <- function() {
   c(
     "r", "rmd", "rnw", "rpres", "rhtml", "qmd",
@@ -70,10 +108,3 @@ text_file_extensions <- function() {
     "htaccess", "htpasswd", "htgroups", "htdigest"
   )
 }
-
-# Example usage:
-# Encode directory to JSON
-json_data <- encode_dir_to_json("example")
-
-# Decode JSON back to directory
-decode_json_to_dir(json_data, "example2")

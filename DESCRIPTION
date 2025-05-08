@@ -1,0 +1,19 @@
+Package: dir2json
+Title: Convert Directory to JSON
+Version: 0.0.0.9000
+Author: Sam Parmar
+Maintainer: Sam Parmar <your-email@example.com>
+Authors@R: 
+    person("Sam", "Parmar", , "first.last@example.com", role = c("aut", "cre"))
+Description: A package to convert codebases into JSON format.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports:
+    base64enc,
+    fs,
+    jsonlite,
+    rlang
+URL: https://github.com/parmsam/dir2json
+BugReports: https://github.com/parmsam/dir2json/issues
