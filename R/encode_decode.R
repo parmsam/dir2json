@@ -3,11 +3,14 @@
 #' This function encodes all files in a directory into a JSON format.
 #'
 #' @param dir A character string specifying the directory to encode.
-#' @param type A character vector specifying the file types to include 
+#' @param type A character vector specifying the file types to include
 #' ("text", "binary", or both). Defaults to both.
+#' @param metadata A character vector specifying additional metadata to
+#'  include in the JSON (e.g., "file_size", "creation_time", 
+#' "last_modified_time"). Defaults to NULL.
 #' @return A JSON string representing the directory's contents.
 #' @export
-json_encode_dir <- function(dir, type = c("text", "binary")) {
+json_encode_dir <- function(dir, type = c("text", "binary"), metadata = NULL) {
   stopifnot(fs::dir_exists(dir))
   
   type <- match.arg(type, several.ok = TRUE)
@@ -29,7 +32,22 @@ json_encode_dir <- function(dir, type = c("text", "binary")) {
     return(FALSE)
   }, files)
   
-  bundle <- unname(Map(as_file_list, files, names))
+  bundle <- unname(Map(function(file, name) {
+    file_list <- as_file_list(file, name)
+    if (!is.null(metadata)) {
+      if ("file_size" %in% metadata) {
+        file_list$file_size <- fs::file_size(file)
+      }
+      if ("creation_time" %in% metadata) {
+        file_list$creation_time <- fs::file_info(file)$birth_time
+      }
+      if ("last_modified_time" %in% metadata) {
+        file_list$last_modified_time <- fs::file_info(file)$modification_time
+      }
+    }
+    file_list
+  }, files, names))
+  
   bundle <- jsonlite::toJSON(bundle, auto_unbox = TRUE, null = "null", na = "null")
   
   return(bundle)
