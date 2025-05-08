@@ -15,5 +15,5 @@ Imports:
     fs,
     jsonlite,
     rlang
-URL: https://github.com/parmsam/dir2json
+URL: https://github.com/parmsam/dir2json, https://parmsam.github.io/dir2json/
 BugReports: https://github.com/parmsam/dir2json/issues
