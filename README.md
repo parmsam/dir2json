@@ -15,7 +15,8 @@ binary files (e.g., images, PDFs), converting them to and from JSON. It
 can be [used with a Shiny
 app](https://parmsam.github.io/dir2json/articles/shiny.html) to allow
 users to upload files, encode them into JSON format, and process or
-download the resulting JSON file.
+download the resulting JSON file. JSON can be used as format for sharing
+multiple files with LLMs.
 
 ## Features
 
