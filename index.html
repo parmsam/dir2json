@@ -53,7 +53,17 @@
 </div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>The goal of <code>dir2json</code> is to provide a utility for converting directories into JSON format and decoding JSON back into directory structures. This is particularly useful for archiving, sharing, or analyzing directory contents in a structured format.</p>
+<p>The goal of <code>dir2json</code> is to provide a utility for converting directories into JSON format and decoding JSON back into directory structures. This is particularly useful for archiving, sharing, or analyzing directory contents in a structured format. The package can handle a variety of file types within the directory, including text and binary files (e.g., images, PDFs), converting them to and from JSON.</p>
+<div class="section level2">
+<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
+</h2>
+<ul>
+<li><p><strong>Encode a directory</strong>: Convert a directory structure (including its files) into a JSON object.</p></li>
+<li><p><strong>Decode a JSON object</strong>: Convert a JSON object back into the original directory structure, restoring files and folders.</p></li>
+<li><p><strong>Supports mixed file types</strong>: Handles both text and binary files by encoding binary files in base64 and text files as plain text.</p></li>
+<li><p><strong>JSON schema</strong>: The structure of the JSON output follows a defined schema, allowing for efficient storage and easy parsing.</p></li>
+</ul>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
