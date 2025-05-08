@@ -15,8 +15,15 @@ binary files (e.g., images, PDFs), converting them to and from JSON. It
 can be [used with a Shiny
 app](https://parmsam.github.io/dir2json/articles/shiny.html) to allow
 users to upload files, encode them into JSON format, and process or
-download the resulting JSON file. JSON can be used as format for sharing
-multiple files with LLMs.
+download the resulting JSON file. JSON, in this manner, can be used as a
+format for sharing multiple files with LLMs.
+
+Note that this JSON representation is it not an alternative to ZIP
+files, but rather a way to represent the contents of a directory in a
+structured format that can be easily parsed and manipulated. ZIP files
+are a superior solution for compressing and archiving files, while JSON
+is a text-based format that is more suitable for data interchange and
+manipulation.
 
 ## Features
 
