@@ -15,13 +15,26 @@ json_encode_dir(
 \item{dir}{A character string specifying the directory to encode.}
 
 \item{type}{A character vector specifying the file types to include
-("text", "binary", or both). Defaults to both.}
+(\code{text}, \code{binary}, or both). One or both of the following options:
+\itemize{
+\item \code{text}: Text files (e.g., \code{.txt}, \code{.csv}, \code{.json}).
+\item \code{binary}: Binary files (e.g., \code{.bin}, \code{.exe}, \code{.jpg}).
+}
+
+Defaults to both.}
 
 \item{metadata}{A character vector specifying additional metadata to
-include in the JSON (e.g., "file_size", "creation_time",
-"last_modified_time"). Defaults to NULL.}
+include in the JSON (\code{file_size}, \code{creation_time},\code{last_modified_time}).
+One or both of the following options:
+\itemize{
+\item \code{file_size}: Size of the file in bytes.
+\item \code{creation_time}: Creation time of the file.
+\item \code{last_modified_time}: Last modified time of the file.
+Defaults to \code{NULL.}
+}}
 
-\item{ignore}{A character vector specifying file names or patterns to exclude from encoding. Defaults to NULL.}
+\item{ignore}{A character vector specifying file names or patterns to
+exclude from encoding. Defaults to \code{NULL.}}
 }
 \value{
 A JSON string representing the directory's contents.

@@ -4,11 +4,21 @@
 #'
 #' @param dir A character string specifying the directory to encode.
 #' @param type A character vector specifying the file types to include
-#' ("text", "binary", or both). Defaults to both.
+#' (`text`, `binary`, or both). One or both of the following options:
+#'   * `text`: Text files (e.g., `.txt`, `.csv`, `.json`).
+#'   * `binary`: Binary files (e.g., `.bin`, `.exe`, `.jpg`).
+#' 
+#' Defaults to both.
 #' @param metadata A character vector specifying additional metadata to
-#'  include in the JSON (e.g., "file_size", "creation_time", 
-#' "last_modified_time"). Defaults to NULL.
-#' @param ignore A character vector specifying file names or patterns to exclude from encoding. Defaults to NULL.
+#' include in the JSON (`file_size`, `creation_time`,`last_modified_time`).  
+#' One or both of the following options:
+#'   * `file_size`: Size of the file in bytes.
+#'   * `creation_time`: Creation time of the file.
+#'   * `last_modified_time`: Last modified time of the file.
+#
+#' Defaults to `NULL.`
+#' @param ignore A character vector specifying file names or patterns to
+#' exclude from encoding. Defaults to `NULL.`
 #' @return A JSON string representing the directory's contents.
 #' @export
 json_encode_dir <- function(dir, type = c("text", "binary"), metadata = NULL, ignore = NULL) {
