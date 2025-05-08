@@ -11,7 +11,11 @@ directories into JSON format and decoding JSON back into directory
 structures. This is particularly useful for archiving, sharing, or
 analyzing directory contents in a structured format. The package can
 handle a variety of file types within the directory, including text and
-binary files (e.g., images, PDFs), converting them to and from JSON.
+binary files (e.g., images, PDFs), converting them to and from JSON. It
+can be [used with a Shiny
+app](https://parmsam.github.io/dir2json/articles/shiny.html) to allow
+users to upload files, encode them into JSON format, and process or
+download the resulting JSON file.
 
 ## Features
 
