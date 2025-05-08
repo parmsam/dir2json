@@ -27,6 +27,17 @@ binary files (e.g., images, PDFs), converting them to and from JSON.
 - **JSON schema**: The structure of the JSON output follows a defined
   schema, allowing for efficient storage and easy parsing.
 
+### JSON Schema
+
+The JSON schema used by `dir2json` is very simple and flat. Each file
+(or directory) is represented by an object with two main fields:
+
+- **`name`**: The file or directory name.
+
+- **`content`**: The content of the file. For text files, this is the
+  raw content as a string. For binary files, it is a base64-encoded
+  string.
+
 ## Installation
 
 You can install the development version of `dir2json` from
@@ -67,3 +78,16 @@ list.files(new_dir, recursive = TRUE)
 readLines(file.path(new_dir, "example.txt"))
 #> [1] "Hello, dir2json!"
 ```
+
+## JSON Encoding and Decoding Process
+
+**Encoding a Directory**: The `json_encode_dir` function traverses the
+directory recursively, reading each file and determining if it is a text
+or binary file. Text files are directly stored as their contents in the
+JSON, while binary files are base64-encoded for safe transport within
+the JSON format.
+
+**Decoding a JSON Object**: The `json_decode_dir` function reads the
+JSON object, restores the directory structure, and writes files back to
+the file system. Binary files are decoded from base64 back to their
+original binary format, and text files are written as plain text.
