@@ -63,6 +63,15 @@
 <li><p><strong>Supports mixed file types</strong>: Handles both text and binary files by encoding binary files in base64 and text files as plain text.</p></li>
 <li><p><strong>JSON schema</strong>: The structure of the JSON output follows a defined schema, allowing for efficient storage and easy parsing.</p></li>
 </ul>
+<div class="section level3">
+<h3 id="json-schema">JSON Schema<a class="anchor" aria-label="anchor" href="#json-schema"></a>
+</h3>
+<p>The JSON schema used by <code>dir2json</code> is very simple and flat. Each file (or directory) is represented by an object with two main fields:</p>
+<ul>
+<li><p><strong><code>name</code></strong>: The file or directory name.</p></li>
+<li><p><strong><code>content</code></strong>: The content of the file. For text files, this is the raw content as a string. For binary files, it is a base64-encoded string.</p></li>
+</ul>
+</div>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -100,6 +109,12 @@
 <span><span class="co">#&gt; [1] "example.txt"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">new_dir</span>, <span class="st">"example.txt"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Hello, dir2json!"</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="json-encoding-and-decoding-process">JSON Encoding and Decoding Process<a class="anchor" aria-label="anchor" href="#json-encoding-and-decoding-process"></a>
+</h2>
+<p><strong>Encoding a Directory</strong>: The <code>json_encode_dir</code> function traverses the directory recursively, reading each file and determining if it is a text or binary file. Text files are directly stored as their contents in the JSON, while binary files are base64-encoded for safe transport within the JSON format.</p>
+<p><strong>Decoding a JSON Object</strong>: The <code>json_decode_dir</code> function reads the JSON object, restores the directory structure, and writes files back to the file system. Binary files are decoded from base64 back to their original binary format, and text files are written as plain text.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
