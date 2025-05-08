@@ -1,8 +1,9 @@
 pandoc: 3.1.11
 pkgdown: 2.1.2
 pkgdown_sha: ~
-articles: {}
-last_built: 2025-05-08T14:14Z
+articles:
+  shiny: shiny.html
+last_built: 2025-05-08T14:55Z
 urls:
   reference: https://parmsam.github.io/dir2json/reference
   article: https://parmsam.github.io/dir2json/articles
