@@ -7,7 +7,7 @@
 #' (`text`, `binary`, or both). One or both of the following options:
 #'   * `text`: Text files (e.g., `.txt`, `.csv`, `.json`).
 #'   * `binary`: Binary files (e.g., `.bin`, `.exe`, `.jpg`).
-#'
+#' 
 #' Defaults to both.
 #' @param metadata A character vector specifying additional metadata to
 #' include in the JSON (`file_size`, `creation_time`,`last_modified_time`).  
