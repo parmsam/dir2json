@@ -26,55 +26,66 @@ You can use dir2json with Shiny to create a web application that allows users to
 
 ```{r app}
 ui <- fluidPage(
-  titlePanel("Encode Uploaded Files to JSON"),
-  sidebarLayout(
-    sidebarPanel(
-      fileInput("files", "Upload Files", multiple = TRUE),
-      actionButton("encode", "Encode to JSON"),
-      downloadButton("downloadJSON", "Download JSON")
+    titlePanel("Encode Uploaded Files to JSON"),
+    sidebarLayout(
+        sidebarPanel(
+            fileInput("files", "Upload Files", multiple = TRUE),
+            actionButton("encode", "Encode to JSON"),
+            downloadButton("downloadJSON", "Download JSON")
+        ),
+        mainPanel(
+            verbatimTextOutput("jsonOutput")
+        )
     ),
-    mainPanel(
-      verbatimTextOutput("jsonOutput")
+    # Custom CSS to enable line wrapping
+    tags$style(
+        HTML("
+            #jsonOutput {
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+        ")
     )
-  )
 )
 
 server <- function(input, output, session) {
-  # Reactive value to store the JSON data
-  json_data <- reactiveVal(NULL)
-  
-  observeEvent(input$encode, {
-    req(input$files) # Ensure files are uploaded
+    # Reactive value to store the JSON data
+    json_data <- reactiveVal(NULL)
     
-    # Create a temporary directory to store uploaded files
-    temp_dir <- tempfile()
-    dir.create(temp_dir)
+    observeEvent(input$encode, {
+        req(input$files) # Ensure files are uploaded
+        
+        # Create a temporary directory to store uploaded files
+        temp_dir <- tempfile()
+        dir.create(temp_dir)
+        
+        # Copy uploaded files to the temporary directory
+        for (i in seq_len(nrow(input$files))) {
+            file.copy(input$files$datapath[i], file.path(temp_dir, input$files$name[i]))
+        }
+        
+        # Encode the directory to JSON
+        json_data(json_encode_dir(temp_dir))
+    })
     
-    # Copy uploaded files to the temporary directory
-    for (i in seq_len(nrow(input$files))) {
-      file.copy(input$files$datapath[i], file.path(temp_dir, input$files$name[i]))
-    }
+    # Display the JSON data in the UI
+    output$jsonOutput <- renderText({
+        req(json_data())
+        json_data()
+    })
     
-    # Encode the directory to JSON
-    json_data(json_encode_dir(temp_dir))
-  })
-  
-  # Display the JSON data in the UI
-  output$jsonOutput <- renderText({
-    req(json_data())
-    json_data()
-  })
-  
-  # Allow the user to download the JSON file
-  output$downloadJSON <- downloadHandler(
-    filename = function() {
-      "encoded_files.json"
-    },
-    content = function(file) {
-      req(json_data())
-      writeLines(json_data(), file)
-    }
-  )
+    # Allow the user to download the JSON file
+    output$downloadJSON <- downloadHandler(
+        filename = function() {
+            "encoded_files.json"
+        },
+        content = function(file) {
+            req(json_data())
+            writeLines(json_data(), file)
+        }
+    )
 }
 
 shinyApp(ui, server)
