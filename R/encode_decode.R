@@ -97,10 +97,10 @@ as_file_list <- function(path, name = fs::path_file(path), type = NULL) {
 text_file_extensions <- function() {
   c(
     "r", "rmd", "rnw", "rpres", "rhtml", "qmd",
-    "py", "ipynb", "js", "ts", "jl", "sas", "log",
+    "py", "ipynb", "js", "ts", "jl", "sas",
     "html", "css", "scss", "less", "sass",
     "tex", "txt", "md", "markdown", "html", "htm",
-    "json", "yml", "yaml", "xml", "svg",
+    "json", "yml", "yaml", "xml", "svg", "yml",
     "sh", "bash", "zsh", "fish", "bat", "cmd",
     "sql", "csv", "tsv", "tab",
     "log", "dcf", "ini", "cfg", "conf", "properties", "env", "envrc",
