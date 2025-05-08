@@ -59,17 +59,24 @@
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>A character vector specifying the file types to include
-("text", "binary", or both). Defaults to both.</p></dd>
+(<code>text</code>, <code>binary</code>, or both). One or both of the following options:</p><ul><li><p><code>text</code>: Text files (e.g., <code>.txt</code>, <code>.csv</code>, <code>.json</code>).</p></li>
+<li><p><code>binary</code>: Binary files (e.g., <code>.bin</code>, <code>.exe</code>, <code>.jpg</code>).</p></li>
+</ul><p>Defaults to both.</p></dd>
 
 
 <dt id="arg-metadata">metadata<a class="anchor" aria-label="anchor" href="#arg-metadata"></a></dt>
 <dd><p>A character vector specifying additional metadata to
-include in the JSON (e.g., "file_size", "creation_time",
-"last_modified_time"). Defaults to NULL.</p></dd>
+include in the JSON (<code>file_size</code>, <code>creation_time</code>,<code>last_modified_time</code>).
+One or both of the following options:</p><ul><li><p><code>file_size</code>: Size of the file in bytes.</p></li>
+<li><p><code>creation_time</code>: Creation time of the file.</p></li>
+<li><p><code>last_modified_time</code>: Last modified time of the file.
+Defaults to <code>NULL.</code></p></li>
+</ul></dd>
 
 
 <dt id="arg-ignore">ignore<a class="anchor" aria-label="anchor" href="#arg-ignore"></a></dt>
-<dd><p>A character vector specifying file names or patterns to exclude from encoding. Defaults to NULL.</p></dd>
+<dd><p>A character vector specifying file names or patterns to
+exclude from encoding. Defaults to <code>NULL.</code></p></dd>
 
 </dl></div>
     <div class="section level2">
