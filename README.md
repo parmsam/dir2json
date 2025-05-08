@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# dir2json <img src="man/figures/logo.png" align="right" height="120" alt="" />
+# dir2json <img src="man/figures/logo.png" align="right" height="120"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -9,7 +9,23 @@
 The goal of `dir2json` is to provide a utility for converting
 directories into JSON format and decoding JSON back into directory
 structures. This is particularly useful for archiving, sharing, or
-analyzing directory contents in a structured format.
+analyzing directory contents in a structured format. The package can
+handle a variety of file types within the directory, including text and
+binary files (e.g., images, PDFs), converting them to and from JSON.
+
+## Features
+
+- **Encode a directory**: Convert a directory structure (including its
+  files) into a JSON object.
+
+- **Decode a JSON object**: Convert a JSON object back into the original
+  directory structure, restoring files and folders.
+
+- **Supports mixed file types**: Handles both text and binary files by
+  encoding binary files in base64 and text files as plain text.
+
+- **JSON schema**: The structure of the JSON output follows a defined
+  schema, allowing for efficient storage and easy parsing.
 
 ## Installation
 
