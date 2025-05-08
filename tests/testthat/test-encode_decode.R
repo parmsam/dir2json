@@ -82,3 +82,26 @@ test_that("json_encode_dir includes metadata when specified", {
   expect_true(grepl("creation_time", json_data_all))
   expect_true(grepl("last_modified_time", json_data_all))
 })
+
+test_that("json_encode_dir respects the ignore parameter", {
+  dir <- tempfile()
+  dir.create(dir)
+
+  # Create test files
+  file1 <- file.path(dir, "include.txt")
+  file2 <- file.path(dir, "exclude.txt")
+  file.create(file1)
+  file.create(file2)
+  writeLines("This file should be included.", file1)
+  writeLines("This file should be excluded.", file2)
+
+  # Test with ignore parameter
+  json_data <- json_encode_dir(dir, ignore = "exclude.txt")
+  expect_true(grepl("include.txt", json_data))
+  expect_false(grepl("exclude.txt", json_data))
+
+  # Test without ignore parameter
+  json_data_no_ignore <- json_encode_dir(dir)
+  expect_true(grepl("include.txt", json_data_no_ignore))
+  expect_true(grepl("exclude.txt", json_data_no_ignore))
+})

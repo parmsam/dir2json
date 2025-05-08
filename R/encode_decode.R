@@ -8,9 +8,10 @@
 #' @param metadata A character vector specifying additional metadata to
 #'  include in the JSON (e.g., "file_size", "creation_time", 
 #' "last_modified_time"). Defaults to NULL.
+#' @param ignore A character vector specifying file names or patterns to exclude from encoding. Defaults to NULL.
 #' @return A JSON string representing the directory's contents.
 #' @export
-json_encode_dir <- function(dir, type = c("text", "binary"), metadata = NULL) {
+json_encode_dir <- function(dir, type = c("text", "binary"), metadata = NULL, ignore = NULL) {
   stopifnot(fs::dir_exists(dir))
   
   type <- match.arg(type, several.ok = TRUE)
@@ -18,6 +19,10 @@ json_encode_dir <- function(dir, type = c("text", "binary"), metadata = NULL) {
   files <- fs::dir_ls(dir, recurse = TRUE, type = "file")
   files <- fs::path_abs(files)
   files <- files[!grepl("^(\\.|_)", fs::path_file(files))]
+  
+  if (!is.null(ignore)) {
+    files <- files[!fs::path_file(files) %in% ignore]
+  }
   
   names <- fs::path_rel(files, dir)
   

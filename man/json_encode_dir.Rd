@@ -4,7 +4,12 @@
 \alias{json_encode_dir}
 \title{Encode a Directory to JSON}
 \usage{
-json_encode_dir(dir, type = c("text", "binary"), metadata = NULL)
+json_encode_dir(
+  dir,
+  type = c("text", "binary"),
+  metadata = NULL,
+  ignore = NULL
+)
 }
 \arguments{
 \item{dir}{A character string specifying the directory to encode.}
@@ -15,6 +20,8 @@ json_encode_dir(dir, type = c("text", "binary"), metadata = NULL)
 \item{metadata}{A character vector specifying additional metadata to
 include in the JSON (e.g., "file_size", "creation_time",
 "last_modified_time"). Defaults to NULL.}
+
+\item{ignore}{A character vector specifying file names or patterns to exclude from encoding. Defaults to NULL.}
 }
 \value{
 A JSON string representing the directory's contents.
