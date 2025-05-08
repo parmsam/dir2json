@@ -50,7 +50,7 @@ You can install the development version of `dir2json` from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("parmsam/codebase2json")
+devtools::install_github("parmsam/dir2json")
 ```
 
 ## Example
