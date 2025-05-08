@@ -17,8 +17,8 @@
 #'   * `last_modified_time`: Last modified time of the file.
 #' 
 #' Defaults to `NULL.`
-#' @param ignore A character vector specifying file names or patterns to
-#' exclude from encoding. Defaults to `NULL.`
+#' @param ignore A character vector specifying file names to exclude
+#' from encoding. Defaults to `NULL.`
 #' @return A JSON string representing the directory's contents.
 #' @export
 json_encode_dir <- function(dir, type = c("text", "binary"), metadata = NULL, ignore = NULL) {

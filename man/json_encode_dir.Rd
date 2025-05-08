@@ -34,8 +34,8 @@ One or both of the following options:
 
 Defaults to \code{NULL.}}
 
-\item{ignore}{A character vector specifying file names or patterns to
-exclude from encoding. Defaults to \code{NULL.}}
+\item{ignore}{A character vector specifying file names to exclude
+from encoding. Defaults to \code{NULL.}}
 }
 \value{
 A JSON string representing the directory's contents.
