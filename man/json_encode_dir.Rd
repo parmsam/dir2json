@@ -30,8 +30,9 @@ One or both of the following options:
 \item \code{file_size}: Size of the file in bytes.
 \item \code{creation_time}: Creation time of the file.
 \item \code{last_modified_time}: Last modified time of the file.
-Defaults to \code{NULL.}
-}}
+}
+
+Defaults to \code{NULL.}}
 
 \item{ignore}{A character vector specifying file names or patterns to
 exclude from encoding. Defaults to \code{NULL.}}
