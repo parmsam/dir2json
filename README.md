@@ -4,7 +4,7 @@
 # dir2json <img src="man/figures/logo.png" align="right" height="120"/>
 
 <!-- badges: start -->
-<!-- badges: end -->
+<!-- badges: end1 -->
 
 The goal of `dir2json` is to provide a utility for converting
 directories into JSON format and decoding JSON back into directory

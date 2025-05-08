@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
-<!-- badges: end -->
+<!-- badges: end1 -->
 
 The goal of `dir2json` is to provide a utility for converting directories into JSON format and decoding JSON back into directory structures. This is particularly useful for archiving, sharing, or analyzing directory contents in a structured format. The package can handle a variety of file types within the directory, including text and binary files (e.g., images, PDFs), converting them to and from JSON.
 
@@ -35,9 +35,9 @@ The goal of `dir2json` is to provide a utility for converting directories into J
 
 The JSON schema used by `dir2json` is very simple and flat. Each file (or directory) is represented by an object with two main fields:
 
-*   **`name`**: The file or directory name.
-    
-*   **`content`**: The content of the file. For text files, this is the raw content as a string. For binary files, it is a base64-encoded string.
+-   **`name`**: The file or directory name.
+
+-   **`content`**: The content of the file. For text files, this is the raw content as a string. For binary files, it is a base64-encoded string.
 
 ## Installation
 
@@ -74,8 +74,9 @@ list.files(new_dir, recursive = TRUE)
 readLines(file.path(new_dir, "example.txt"))
 ```
 
-## JSON Encoding and Decoding Process
+## JSON Encoding and Decoding Process 
 
 **Encoding a Directory**: The `json_encode_dir` function traverses the directory recursively, reading each file and determining if it is a text or binary file. Text files are directly stored as their contents in the JSON, while binary files are base64-encoded for safe transport within the JSON format.
 
 **Decoding a JSON Object**: The `json_decode_dir` function reads the JSON object, restores the directory structure, and writes files back to the file system. Binary files are decoded from base64 back to their original binary format, and text files are written as plain text.
+

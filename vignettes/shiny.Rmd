@@ -1,0 +1,81 @@
+---
+title: "dir2json + Shiny"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{shiny}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  eval = FALSE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dir2json)
+library(shiny)
+```
+
+You can use dir2json with Shiny to create a web application that allows users to upload files, encode them into JSON format, and process or download the resulting JSON file. Below is an example of how to implement this functionality in a Shiny app.
+
+## Shiny example
+
+```{r app}
+ui <- fluidPage(
+  titlePanel("Encode Uploaded Files to JSON"),
+  sidebarLayout(
+    sidebarPanel(
+      fileInput("files", "Upload Files", multiple = TRUE),
+      actionButton("encode", "Encode to JSON"),
+      downloadButton("downloadJSON", "Download JSON")
+    ),
+    mainPanel(
+      verbatimTextOutput("jsonOutput")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  # Reactive value to store the JSON data
+  json_data <- reactiveVal(NULL)
+  
+  observeEvent(input$encode, {
+    req(input$files) # Ensure files are uploaded
+    
+    # Create a temporary directory to store uploaded files
+    temp_dir <- tempfile()
+    dir.create(temp_dir)
+    
+    # Copy uploaded files to the temporary directory
+    for (i in seq_len(nrow(input$files))) {
+      file.copy(input$files$datapath[i], file.path(temp_dir, input$files$name[i]))
+    }
+    
+    # Encode the directory to JSON
+    json_data(json_encode_dir(temp_dir))
+  })
+  
+  # Display the JSON data in the UI
+  output$jsonOutput <- renderText({
+    req(json_data())
+    json_data()
+  })
+  
+  # Allow the user to download the JSON file
+  output$downloadJSON <- downloadHandler(
+    filename = function() {
+      "encoded_files.json"
+    },
+    content = function(file) {
+      req(json_data())
+      writeLines(json_data(), file)
+    }
+  )
+}
+
+shinyApp(ui, server)
+```
