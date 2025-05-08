@@ -4,10 +4,13 @@
 \alias{json_encode_dir}
 \title{Encode a Directory to JSON}
 \usage{
-json_encode_dir(dir)
+json_encode_dir(dir, type = c("text", "binary"))
 }
 \arguments{
 \item{dir}{A character string specifying the directory to encode.}
+
+\item{type}{A character vector specifying the file types to include
+("text", "binary", or both). Defaults to both.}
 }
 \value{
 A JSON string representing the directory's contents.

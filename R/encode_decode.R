@@ -3,16 +3,32 @@
 #' This function encodes all files in a directory into a JSON format.
 #'
 #' @param dir A character string specifying the directory to encode.
+#' @param type A character vector specifying the file types to include 
+#' ("text", "binary", or both). Defaults to both.
 #' @return A JSON string representing the directory's contents.
 #' @export
-json_encode_dir <- function(dir) {
+json_encode_dir <- function(dir, type = c("text", "binary")) {
   stopifnot(fs::dir_exists(dir))
+  
+  type <- match.arg(type, several.ok = TRUE)
   
   files <- fs::dir_ls(dir, recurse = TRUE, type = "file")
   files <- fs::path_abs(files)
   files <- files[!grepl("^(\\.|_)", fs::path_file(files))]
   
   names <- fs::path_rel(files, dir)
+  
+  files <- Filter(function(file) {
+    ext <- tolower(fs::path_ext(file))
+    if ("text" %in% type && ext %in% text_file_extensions()) {
+      return(TRUE)
+    }
+    if ("binary" %in% type && !(ext %in% text_file_extensions())) {
+      return(TRUE)
+    }
+    return(FALSE)
+  }, files)
+  
   bundle <- unname(Map(as_file_list, files, names))
   bundle <- jsonlite::toJSON(bundle, auto_unbox = TRUE, null = "null", na = "null")
   
