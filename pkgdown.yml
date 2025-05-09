@@ -3,7 +3,7 @@ pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   shiny: shiny.html
-last_built: 2025-05-08T21:22Z
+last_built: 2025-05-09T23:01Z
 urls:
   reference: https://parmsam.github.io/dir2json/reference
   article: https://parmsam.github.io/dir2json/articles
