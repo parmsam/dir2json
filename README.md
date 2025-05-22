@@ -13,7 +13,7 @@ analyzing directory contents in a structured format. The package can
 handle a variety of file types within the directory, including text and
 binary files (e.g., images, PDFs), converting them to and from JSON. It
 can be [used with a Shiny
-app](https://parmsam.github.io/dir2json/articles/shiny.html) to allow
+app](https://parmsam.github.io/dir2json-r/articles/shiny.html) to allow
 users to upload files, encode them into JSON format, and process or
 download the resulting JSON file. JSON, in this manner, can be used as a
 format for sharing multiple files with LLMs.
