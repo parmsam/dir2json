@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# dir2json <img src="man/figures/logo.png" align="right" height="120"/>
+# dir2json <a href="https://parmsam.github.io/dir2json-r/"><img src="man/figures/logo.png" align="right" height="120" alt="dir2json website" /></a>
 
 <!-- badges: start -->
 <!-- badges: end1 -->
@@ -57,7 +57,7 @@ You can install the development version of `dir2json` from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("parmsam/dir2json")
+devtools::install_github("parmsam/dir2json-r")
 ```
 
 ## Example
