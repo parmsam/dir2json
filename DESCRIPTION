@@ -3,8 +3,6 @@ Type: Package
 Title: Convert Directory to JSON
 Version: 0.1.0
 Description: Convert a directory structure into a JSON format. This package lets you recursively traverse a directory and convert its contents into a JSON object, making it easier to import codebase from file systems into LLMs.
-Author: Sam Parmar
-Maintainer: Sam Parmar <your-email@example.com>
 Authors@R: 
     person("Sam", "Parmar", , "parmartsam@gmail.com", role = c("aut", "cre", "cph"))
 License: MIT + file LICENSE
