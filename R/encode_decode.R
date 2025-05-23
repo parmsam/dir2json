@@ -36,17 +36,20 @@ json_encode_dir <- function(dir, type = c("text", "binary"), metadata = NULL, ig
   
   names <- fs::path_rel(files, dir)
   
-  files <- Filter(function(file) {
+  files_info <- Map(function(file, name) {
     ext <- tolower(fs::path_ext(file))
     if ("text" %in% type && ext %in% text_file_extensions()) {
-      return(TRUE)
+      return(list(file = file, name = name))
     }
     if ("binary" %in% type && !(ext %in% text_file_extensions())) {
-      return(TRUE)
+      return(list(file = file, name = name))
     }
-    return(FALSE)
-  }, files)
-  
+    NULL
+  }, files, names)
+  files_info <- Filter(Negate(is.null), files_info)
+  files <- vapply(files_info, function(x) x$file, character(1))
+  names <- vapply(files_info, function(x) x$name, character(1))
+
   bundle <- unname(Map(function(file, name) {
     file_list <- as_file_list(file, name)
     if (!is.null(metadata)) {
@@ -77,6 +80,7 @@ json_encode_dir <- function(dir, type = c("text", "binary"), metadata = NULL, ig
 #' @return None. Creates files in the specified directory.
 #' @export
 json_decode_dir <- function(json_data, dir) {
+  validate_dir_json(json_data)
   sl_app <- jsonlite::fromJSON(json_data, simplifyVector = FALSE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
   
   if (!fs::dir_exists(dir)) {
@@ -156,4 +160,25 @@ text_file_extensions <- function() {
     "gitignore", "gitattributes", "gitmodules", "gitconfig", "gitkeep",
     "htaccess", "htpasswd", "htgroups", "htdigest"
   )
+}
+
+#' Validate Directory JSON Structure
+#'
+#' Checks if a JSON string is compliant with the expected directory structure.
+#'
+#' @param json_data A JSON string representing the directory's contents.
+#' @return TRUE if valid, otherwise throws an error.
+#' @export
+validate_dir_json <- function(json_data) {
+  obj <- tryCatch(
+    jsonlite::fromJSON(json_data, simplifyVector = FALSE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE),
+    error = function(e) stop("Invalid JSON: ", e$message)
+  )
+  if (!is.list(obj) || length(obj) == 0) stop("JSON must be a non-empty list.")
+  for (file in obj) {
+    if (!is.list(file)) stop("Each file entry must be a list.")
+    if (!all(c("name", "content") %in% names(file))) stop("Each file must have 'name' and 'content' fields.")
+    if ("type" %in% names(file) && !(file$type %in% c("text", "binary"))) stop("Invalid 'type' field: must be 'text' or 'binary'.")
+  }
+  TRUE
 }

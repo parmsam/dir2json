@@ -105,3 +105,33 @@ test_that("json_encode_dir respects the ignore parameter", {
   expect_true(grepl("include.txt", json_data_no_ignore))
   expect_true(grepl("exclude.txt", json_data_no_ignore))
 })
+
+test_that("validate_dir_json accepts valid JSON", {
+  valid_json <- jsonlite::toJSON(list(
+    list(name = "file1.txt", content = "hello world"),
+    list(name = "file2.bin", content = "aGVsbG8=", type = "binary")
+  ), auto_unbox = TRUE)
+  expect_true(validate_dir_json(valid_json))
+})
+
+test_that("validate_dir_json rejects invalid JSON", {
+  # Not a JSON string
+  expect_error(validate_dir_json("not json"), "Invalid JSON")
+
+  # Not a list
+  invalid_json <- jsonlite::toJSON(list(), auto_unbox = TRUE)
+  expect_error(validate_dir_json(invalid_json), "non-empty list")
+
+  # Missing 'name'
+  missing_name <- jsonlite::toJSON(list(list(content = "abc")), auto_unbox = TRUE)
+  expect_error(validate_dir_json(missing_name), "must have 'name' and 'content'")
+
+  # Invalid 'type'
+  invalid_type <- jsonlite::toJSON(list(list(name = "f", content = "abc", type = "foo")), auto_unbox = TRUE)
+  expect_error(validate_dir_json(invalid_type), "Invalid 'type' field")
+})
+
+test_that("validate_dir_json allows optional type", {
+  json <- jsonlite::toJSON(list(list(name = "f", content = "abc")), auto_unbox = TRUE)
+  expect_true(validate_dir_json(json))
+})
