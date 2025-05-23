@@ -17,3 +17,9 @@ None. Writes files to the specified directory.
 \description{
 This function writes files to a specified directory based on a structured list.
 }
+\examples{
+\dontrun{
+# Write files from a structured list to a directory
+write_files(sl_app, "output_dir")
+}
+}

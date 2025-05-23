@@ -12,3 +12,6 @@ A character vector of text file extensions.
 \description{
 This function returns a vector of common text file extensions.
 }
+\examples{
+text_file_extensions()
+}

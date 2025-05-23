@@ -39,3 +39,15 @@ A JSON string representing the directory's contents.
 \description{
 This function encodes all files in a directory into a JSON format.
 }
+\examples{
+\dontrun{
+# Encode all files in a directory to JSON
+json_str <- json_encode_dir("mydir")
+
+# Encode only text files, including file size metadata
+json_str <- json_encode_dir("mydir", type = "text", metadata = "file_size")
+
+# Ignore specific files
+json_str <- json_encode_dir("mydir", ignore = c("ignore.txt"))
+}
+}

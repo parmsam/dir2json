@@ -13,5 +13,11 @@ validate_dir_json(json_data)
 TRUE if valid, otherwise throws an error.
 }
 \description{
-Checks if a JSON string is compliant with the expected directory structure.
+Checks if a JSON string is compliant with the expected schema for a directory structure.
+}
+\examples{
+\dontrun{
+# Validate a JSON string for directory structure
+validate_dir_json(json_str)
+}
 }

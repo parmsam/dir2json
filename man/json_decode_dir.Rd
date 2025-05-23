@@ -17,3 +17,9 @@ None. Creates files in the specified directory.
 \description{
 This function decodes a JSON string into a directory structure.
 }
+\examples{
+\dontrun{
+# Decode JSON back into a directory
+json_decode_dir(json_str, "output_dir")
+}
+}

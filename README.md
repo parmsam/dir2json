@@ -52,6 +52,13 @@ The JSON schema used by `dir2json` is very simple and flat. Each file
 
 ## Installation
 
+You can install the released version of lzstring from
+[CRAN](https://CRAN.R-project.org/package=dir2json) with:
+
+``` r
+install.packages("dir2json")
+```
+
 You can install the development version of `dir2json` from
 [GitHub](https://github.com/) with:
 

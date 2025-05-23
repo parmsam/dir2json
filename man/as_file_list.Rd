@@ -19,3 +19,12 @@ A structured list representing the file.
 \description{
 This function converts a file into a structured list for encoding.
 }
+\examples{
+\dontrun{
+# Convert a text file to a list
+as_file_list("file.txt")
+
+# Convert a binary file to a list
+as_file_list("image.jpg", type = "binary")
+}
+}

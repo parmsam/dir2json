@@ -6,7 +6,7 @@ Description: Convert a directory structure into a JSON format. This package lets
 Author: Sam Parmar
 Maintainer: Sam Parmar <your-email@example.com>
 Authors@R: 
-    person("Sam", "Parmar", , "parmartsam@gmail.com", role = c("aut", "cre"))
+    person("Sam", "Parmar", , "parmartsam@gmail.com", role = c("aut", "cre", "cph"))
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.1
@@ -15,9 +15,9 @@ Imports:
     fs,
     jsonlite,
     rlang
-URL: https://github.com/parmsam/dir2json-r, https://parmsam.github.io/dir2json-r/
-BugReports: https://github.com/parmsam/dir2json-r/issues
 Suggests: 
     knitr,
     rmarkdown
+URL: https://github.com/parmsam/dir2json-r, https://parmsam.github.io/dir2json-r/
+BugReports: https://github.com/parmsam/dir2json-r/issues
 VignetteBuilder: knitr
