@@ -21,6 +21,17 @@
 #' from encoding. Defaults to `NULL.`
 #' @return A JSON string representing the directory's contents.
 #' @export
+#' @examples
+#' \dontrun{
+#' # Encode all files in a directory to JSON
+#' json_str <- json_encode_dir("mydir")
+#'
+#' # Encode only text files, including file size metadata
+#' json_str <- json_encode_dir("mydir", type = "text", metadata = "file_size")
+#'
+#' # Ignore specific files
+#' json_str <- json_encode_dir("mydir", ignore = c("ignore.txt"))
+#' }
 json_encode_dir <- function(dir, type = c("text", "binary"), metadata = NULL, ignore = NULL) {
   stopifnot(fs::dir_exists(dir))
   
@@ -79,6 +90,11 @@ json_encode_dir <- function(dir, type = c("text", "binary"), metadata = NULL, ig
 #' @param dir A character string specifying the target directory.
 #' @return None. Creates files in the specified directory.
 #' @export
+#' @examples
+#' \dontrun{
+#' # Decode JSON back into a directory
+#' json_decode_dir(json_str, "output_dir")
+#' }
 json_decode_dir <- function(json_data, dir) {
   validate_dir_json(json_data)
   sl_app <- jsonlite::fromJSON(json_data, simplifyVector = FALSE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
@@ -98,6 +114,11 @@ json_decode_dir <- function(json_data, dir) {
 #' @param dest A character string specifying the target directory.
 #' @return None. Writes files to the specified directory.
 #' @export
+#' @examples
+#' \dontrun{
+#' # Write files from a structured list to a directory
+#' write_files(sl_app, "output_dir")
+#' }
 write_files <- function(sl_app, dest) {
   for (file in sl_app) {
     if ("type" %in% names(file) && file[["type"]] == "binary") {
@@ -119,6 +140,14 @@ write_files <- function(sl_app, dest) {
 #' @param type An optional character string specifying the file type ("text" or "binary").
 #' @return A structured list representing the file.
 #' @export
+#' @examples
+#' \dontrun{
+#' # Convert a text file to a list
+#' as_file_list("file.txt")
+#'
+#' # Convert a binary file to a list
+#' as_file_list("image.jpg", type = "binary")
+#' }
 as_file_list <- function(path, name = fs::path_file(path), type = NULL) {
   if (is.null(type)) {
     ext <- tolower(fs::path_ext(path))
@@ -147,6 +176,8 @@ as_file_list <- function(path, name = fs::path_file(path), type = NULL) {
 #'
 #' @return A character vector of text file extensions.
 #' @export
+#' @examples
+#' text_file_extensions()
 text_file_extensions <- function() {
   c(
     "r", "rmd", "rnw", "rpres", "rhtml", "qmd",
@@ -164,11 +195,16 @@ text_file_extensions <- function() {
 
 #' Validate Directory JSON Structure
 #'
-#' Checks if a JSON string is compliant with the expected directory structure.
+#' Checks if a JSON string is compliant with the expected schema for a directory structure.
 #'
 #' @param json_data A JSON string representing the directory's contents.
 #' @return TRUE if valid, otherwise throws an error.
 #' @export
+#' @examples
+#' \dontrun{
+#' # Validate a JSON string for directory structure
+#' validate_dir_json(json_str)
+#' }
 validate_dir_json <- function(json_data) {
   obj <- tryCatch(
     jsonlite::fromJSON(json_data, simplifyVector = FALSE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE),

@@ -15,27 +15,23 @@ json_encode_dir(
 \item{dir}{A character string specifying the directory to encode.}
 
 \item{type}{A character vector specifying the file types to include
-(\code{text}, \code{binary}, or both). One or both of the following options:
-\itemize{
-\item \code{text}: Text files (e.g., \code{.txt}, \code{.csv}, \code{.json}).
-\item \code{binary}: Binary files (e.g., \code{.bin}, \code{.exe}, \code{.jpg}).
-}
+(`text`, `binary`, or both). One or both of the following options:
+  * `text`: Text files (e.g., `.txt`, `.csv`, `.json`).
+  * `binary`: Binary files (e.g., `.bin`, `.exe`, `.jpg`).
 
 Defaults to both.}
 
 \item{metadata}{A character vector specifying additional metadata to
-include in the JSON (\code{file_size}, \code{creation_time},\code{last_modified_time}).
+include in the JSON (`file_size`, `creation_time`,`last_modified_time`).  
 One or both of the following options:
-\itemize{
-\item \code{file_size}: Size of the file in bytes.
-\item \code{creation_time}: Creation time of the file.
-\item \code{last_modified_time}: Last modified time of the file.
-}
+  * `file_size`: Size of the file in bytes.
+  * `creation_time`: Creation time of the file.
+  * `last_modified_time`: Last modified time of the file.
 
-Defaults to \code{NULL.}}
+Defaults to `NULL.`}
 
 \item{ignore}{A character vector specifying file names to exclude
-from encoding. Defaults to \code{NULL.}}
+from encoding. Defaults to `NULL.`}
 }
 \value{
 A JSON string representing the directory's contents.
